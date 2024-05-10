@@ -24,6 +24,7 @@ public class PlayerManager : MonoBehaviour
     private Vector3 nextPoint;
     private Vector3 offset = new Vector3(0, 3.3f, 0);
     private string currentAnimName;
+    private bool isWon = false;
 
     private void Awake()
     {
@@ -36,6 +37,7 @@ public class PlayerManager : MonoBehaviour
     {
         if (!isMoving)
         {
+            ChangeAnim("Idle");
             playerCollider.enabled = false;
         }
         else
@@ -51,6 +53,7 @@ public class PlayerManager : MonoBehaviour
     {
         if (!isMoving)
         {
+            
             switch (InputManager.Instance.direction)
             {
                 case EDirection.Forward:
@@ -145,10 +148,9 @@ public class PlayerManager : MonoBehaviour
 
         if (other.gameObject.CompareTag("Brick"))
         {
-            
+            ChangeAnim("HitStack");
             Debug.Log("Brick");
             AddBrick();
-            //ChangeAnim("HitStack");
             other.gameObject.SetActive(false);
         }
 
@@ -177,8 +179,9 @@ public class PlayerManager : MonoBehaviour
         }
         if (other.gameObject.CompareTag("WinPos"))
         {
+           // isWon = true;
             speed = 0;
-            //ChangeAnim("Win");
+            ChangeAnim("Win");
             Debug.Log("WinPos");
             
         }
@@ -204,9 +207,9 @@ public class PlayerManager : MonoBehaviour
     {
         if(currentAnimName != animName)
         {
-            anim.ResetTrigger(currentAnimName);
+            anim.ResetTrigger(animName);
             currentAnimName = animName;
-            anim.SetTrigger(animName);
+            anim.SetTrigger(currentAnimName);
         }
     }
 
