@@ -3,7 +3,12 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Brick
+  - Wall
+  - Line
+  - UnBrick
+  - WinPos
   layers:
   - Default
   - TransparentFX
@@ -12,11 +17,11 @@ TagManager:
   - Water
   - UI
   - 
+  - Wall
   - 
-  - 
-  - 
-  - 
-  - 
+  - Brick
+  - Line
+  - Treasure
   - 
   - 
   - 

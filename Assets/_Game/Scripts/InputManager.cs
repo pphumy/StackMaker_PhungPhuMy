@@ -4,6 +4,29 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
+    public EDirection direction;
+    private static InputManager instance;   
+    public static InputManager Instance
+    {
+        get
+        {
+            if(instance == null)
+            {
+                instance = FindObjectOfType<InputManager>();
+            }
+            return instance;
+        }
+
+    }
+
+    
+    private void Awake()
+    {
+        instance = this;
+        OnInit();
+    }
+    
+    
 
     void Update()
     {
@@ -13,7 +36,7 @@ public class InputManager : MonoBehaviour
     Vector2 secondPressPos;
     Vector2 currentSwipe;
 
-    public void Swipe()
+    private void Swipe()
     {
         if (Input.GetMouseButtonDown(0))
         {
@@ -34,23 +57,31 @@ public class InputManager : MonoBehaviour
             //swipe upwards
             if (currentSwipe.y > 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.6f)
             {
-                Debug.Log("up swipe");
+                direction = EDirection.Forward;
             }
             //swipe down
             else if (currentSwipe.y < 0 && (currentSwipe.x > -0.5f && currentSwipe.x < 0.6f))
             {
                 Debug.Log("down swipe");
+                direction = EDirection.Backward;
             }
             //swipe left
             else if (currentSwipe.x < 0 && (currentSwipe.y > -0.5f && currentSwipe.y < 0.6f))
             {
                 Debug.Log("left swipe");
+                direction = EDirection.Left;
             }
             //swipe right
             else if (currentSwipe.x > 0 && (currentSwipe.y > -0.5f && currentSwipe.y < 0.6f))
             {
                 Debug.Log("right swipe");
+                direction = EDirection.Right;
             }
         }
     }
+    void OnInit()
+    {
+        direction = EDirection.None;
+    }
+
 }

@@ -3,7 +3,15 @@ guid: 43d0e4330cb17e04ea92b13ff458a6b9
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - rb: {instanceID: 0}
+  - anim: {instanceID: 0}
+  - player: {instanceID: 0}
+  - brickPrefab: {fileID: 4373729077269793068, guid: ca2110070d0608944b3992318170e1b2, type: 3}
+  - playerBrick: {instanceID: 0}
+  - playerModel: {instanceID: 0}
+  - StartPoint: {instanceID: 0}
+  - playerCollider: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
