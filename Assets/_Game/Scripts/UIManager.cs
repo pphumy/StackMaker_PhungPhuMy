@@ -5,6 +5,11 @@ using UnityEngine;
 public class UIManager : Singleton<UIManager>
 {
     // Start is called before the first frame update
-    
-   
+    [SerializeField] GameObject Btn;
+
+    public void Play()
+    {
+        Btn.SetActive(false);
+        LevelManager.Instance.LoadLevel();
+    }
 }

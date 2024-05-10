@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerManager : MonoBehaviour
+public class PlayerManager : Singleton<PlayerManager>
 {
     [SerializeField] float speed = 15f;
     [SerializeField] private Rigidbody rb;
@@ -12,7 +12,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] GameObject brickPrefab, playerBrick, playerModel;
 
     List<GameObject> bricks = new List<GameObject>();
-    [SerializeField] Transform StartPoint;
+    public Transform StartPoint ;
 
     [SerializeField] Collider playerCollider;
 
@@ -22,14 +22,14 @@ public class PlayerManager : MonoBehaviour
     private float brickHeight = 0.3f;
 
     private Vector3 nextPoint;
-    private Vector3 offset = new Vector3(0, 3.3f, 0);
+    private Vector3 offset = new Vector3(0, 3.5f, 0);
     private string currentAnimName;
     private bool isWon = false;
 
     private void Awake()
     {
         OnInit();
-        nextPoint = transform.position;
+        
 
     }
     // Update is called once per frame
@@ -53,7 +53,7 @@ public class PlayerManager : MonoBehaviour
     {
         if (!isMoving)
         {
-            
+            nextPoint = transform.position;
             switch (InputManager.Instance.direction)
             {
                 case EDirection.Forward:
@@ -215,8 +215,14 @@ public class PlayerManager : MonoBehaviour
 
     private void OnInit()
     {
+        
         isMoving = false;
-        transform.position = StartPoint.position + offset;
+        
+    }
+    public void SetStartPoint(Vector3 startPoint)
+    {
+        transform.position = startPoint + offset;
+        Debug.Log(transform.position);
     }
 
 }

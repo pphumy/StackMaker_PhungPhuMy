@@ -2,17 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LevelManager : MonoBehaviour
+public class LevelManager : Singleton<LevelManager>
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] Transform origin;
+    [SerializeField] List<Map> maps = new List<Map>();
+
+    public void LoadLevel()
     {
-        
+
+        Instantiate(maps[0], origin,true);
+        PlayerManager.Instance.SetStartPoint(maps[0].StartPoint.position);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
