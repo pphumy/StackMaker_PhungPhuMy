@@ -16,22 +16,27 @@ public class UIManager : Singleton<UIManager>
         LevelManager.Instance.LoadLevel();
         
     }
-    public void ShowWinUi()
-    {
-        WinUI.SetActive(true);
+    //public void ShowWinUi()
+    //{
         
-    }
+        
+    //}
 
     public void SetLevelUI()
     {
         int level = PlayerPrefs.GetInt("Current level") + 1;
         text.SetText("Level "+ level);
-        Debug.Log(level);
     }
 
     public void NextLevel()
     {
         LevelManager.Instance.LoadNextLevel();
         WinUI.SetActive(false);
+    }
+
+    public IEnumerator ShowWinUI()
+    {
+        yield return new WaitForSeconds(2);
+        WinUI.SetActive(true);
     }
 }

@@ -33,7 +33,7 @@ public class LevelManager : Singleton<LevelManager>
         Instantiate(maps[currentLevel], origin, true);
         PlayerPrefs.SetInt("Current Level", currentLevel);
         PlayerManager.Instance.SetStartPoint(maps[currentLevel].StartPoint.position);
-        UIManager.Instance.SetLevelUI();
+        
     }
 
 }

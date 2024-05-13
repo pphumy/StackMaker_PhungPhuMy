@@ -75,7 +75,7 @@ public class PlayerManager : Singleton<PlayerManager>
                     break;
             }
 
-            Debug.DrawRay(transform.position, dir, Color.red, Mathf.Infinity);
+            //Debug.DrawRay(transform.position, dir, Color.red, Mathf.Infinity);
             if (Physics.Raycast(transform.position, dir, out hit, Mathf.Infinity, layer))
             {
 
@@ -148,7 +148,7 @@ public class PlayerManager : Singleton<PlayerManager>
         if (other.gameObject.CompareTag("Brick"))
         {
 
-            Debug.Log("Brick");
+            //Debug.Log("Brick");
             AddBrick();
             other.gameObject.SetActive(false);
         }
@@ -168,7 +168,7 @@ public class PlayerManager : Singleton<PlayerManager>
                 else if (bricks.Count <= 0)
                 {
                     speed = 0;
-                    Debug.Log("Retry");
+                    //Debug.Log("Retry");
                     LevelManager.Instance.LoadLevel();
                 }
             }
@@ -182,27 +182,13 @@ public class PlayerManager : Singleton<PlayerManager>
            // isWon = true;
             speed = 0;
             ChangeAnim("Win");
-            Debug.Log("WinPos");
-            UIManager.Instance.ShowWinUi();
-            
+            //Debug.Log("WinPos");
+            UIManager.Instance.StartCoroutine(UIManager.Instance.ShowWinUI());
         }
 
 
     }
 
-
-
-    //if (other.gameObject.CompareTag("Finish"))
-    //{
-    //    other.gameObject.GetComponent<BoxController>().HitPlayer();
-    //}
-
-    //if (other.gameObject.CompareTag("FinishPoint"))
-    //{
-    //    ClearBrick();
-    //    //phat di su kien khi win game
-    //    winGameEvent?.Invoke();
-    //}
 
     private void Win()
     {
@@ -227,7 +213,6 @@ public class PlayerManager : Singleton<PlayerManager>
     public void SetStartPoint(Vector3 startPoint)
     {
         transform.position = startPoint + offset;
-        Debug.Log(transform.position);
     }
 
 }
