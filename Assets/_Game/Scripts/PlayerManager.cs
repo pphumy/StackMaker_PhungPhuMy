@@ -24,7 +24,6 @@ public class PlayerManager : Singleton<PlayerManager>
     private Vector3 nextPoint;
     private Vector3 offset = new Vector3(0, 3.5f, 0);
     private string currentAnimName;
-    private bool isWon = false;
 
     private void Awake()
     {
@@ -37,7 +36,6 @@ public class PlayerManager : Singleton<PlayerManager>
     {
         if (!isMoving)
         {
-            ChangeAnim("Idle");
             playerCollider.enabled = false;
         }
         else
@@ -115,6 +113,7 @@ public class PlayerManager : Singleton<PlayerManager>
         //add brick vua tao ra
         bricks.Add(brick);
         playerModel.transform.localPosition += Vector3.up * 0.3f;
+        ChangeAnim("Hit");
     }
 
     private void RemoveBrick()
@@ -148,7 +147,7 @@ public class PlayerManager : Singleton<PlayerManager>
 
         if (other.gameObject.CompareTag("Brick"))
         {
-            ChangeAnim("HitStack");
+
             Debug.Log("Brick");
             AddBrick();
             other.gameObject.SetActive(false);
@@ -170,6 +169,7 @@ public class PlayerManager : Singleton<PlayerManager>
                 {
                     speed = 0;
                     Debug.Log("Retry");
+                    LevelManager.Instance.LoadLevel();
                 }
             }
             else
@@ -183,6 +183,7 @@ public class PlayerManager : Singleton<PlayerManager>
             speed = 0;
             ChangeAnim("Win");
             Debug.Log("WinPos");
+            UIManager.Instance.ShowWinUi();
             
         }
 
@@ -203,7 +204,11 @@ public class PlayerManager : Singleton<PlayerManager>
     //    winGameEvent?.Invoke();
     //}
 
-    private void ChangeAnim(string animName)
+    private void Win()
+    {
+        
+    }
+    public void ChangeAnim(string animName)
     {
         if(currentAnimName != animName)
         {

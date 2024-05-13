@@ -1035,6 +1035,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapId: 0
   StartPoint: {fileID: 9205032167432700530}
+  FinishPoint: {fileID: 683764001134694510}
   MapPrefab: {fileID: 9065400805162550127}
 --- !u!1001 &51156834161595400
 PrefabInstance:
@@ -3618,6 +3619,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 220059843650174619}
     m_Modifications:
+    - target: {fileID: 1095323009806971, guid: bec8fbf23e70b4f42b574dddd6681a4c, type: 3}
+      propertyPath: m_TagString
+      value: WinPos
+      objectReference: {fileID: 0}
     - target: {fileID: 1377060364527856, guid: bec8fbf23e70b4f42b574dddd6681a4c, type: 3}
       propertyPath: m_Name
       value: winpos
@@ -3666,7 +3671,8 @@ PrefabInstance:
       propertyPath: m_Materials.Array.size
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8390240345770429082, guid: bec8fbf23e70b4f42b574dddd6681a4c, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 4157892317022374, guid: bec8fbf23e70b4f42b574dddd6681a4c, type: 3}
@@ -3677,6 +3683,11 @@ PrefabInstance:
 --- !u!4 &676644030041603435 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4157892317022374, guid: bec8fbf23e70b4f42b574dddd6681a4c, type: 3}
+  m_PrefabInstance: {fileID: 679245013558146509}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &683764001134694510 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4536592647841187, guid: bec8fbf23e70b4f42b574dddd6681a4c, type: 3}
   m_PrefabInstance: {fileID: 679245013558146509}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &696805565779385393
