@@ -7,6 +7,7 @@ public class UIManager : Singleton<UIManager>
 {
     // Start is called before the first frame update
     [SerializeField] GameObject PlayBtn;
+    [SerializeField] GameObject BackgroundSelection;
     [SerializeField] TextMeshProUGUI text;
     [SerializeField] GameObject WinUI;
 
@@ -51,6 +52,11 @@ public class UIManager : Singleton<UIManager>
         LevelManager.Instance.LoadLevel();
         WinUI.SetActive(false);
         GameManager.Instance.StartGame();
+    }
+    public void OnClickChangeBackGroundBtn()
+    {
+        BackgroundSelection.SetActive(true);
+        
     }
 
     public IEnumerator ShowWinUI()
