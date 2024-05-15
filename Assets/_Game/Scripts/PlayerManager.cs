@@ -46,7 +46,11 @@ public class PlayerManager : Singleton<PlayerManager>
         }
         //CheckCollider();
         getMovePostition();
-        MovePlayer();
+        if (dir != Vector3.zero)
+        {
+            MovePlayer();
+        }
+        
     }
 
     private void getMovePostition()
@@ -65,17 +69,20 @@ public class PlayerManager : Singleton<PlayerManager>
                     case EDirection.Forward:
 
                         dir = Vector3.forward;
+                        AudioManager.Instance.PlaySwipeSfx();
                         break;
                     case EDirection.Backward:
 
                         dir = Vector3.back;
+                        AudioManager.Instance.PlaySwipeSfx();
                         break;
                     case EDirection.Right:
 
                         dir = Vector3.right;
+                        AudioManager.Instance.PlaySwipeSfx();
                         break;
                     case EDirection.Left:
-
+                        AudioManager.Instance.PlaySwipeSfx();
                         dir = Vector3.left;
                         break;
                     case EDirection.None:
@@ -106,6 +113,7 @@ public class PlayerManager : Singleton<PlayerManager>
         {
             transform.position = Vector3.MoveTowards(transform.position, nextPoint, speed * Time.deltaTime);
             isMoving = true;
+            
         }
         else
         {
@@ -125,6 +133,7 @@ public class PlayerManager : Singleton<PlayerManager>
         bricks.Add(brick);
         playerModel.transform.localPosition += Vector3.up * 0.3f;
         ChangeAnim("Hit");
+        
     }
 
     private void RemoveBrick()
@@ -162,6 +171,7 @@ public class PlayerManager : Singleton<PlayerManager>
 
             //Debug.Log("Brick");
             AddBrick();
+            AudioManager.Instance.PlayHitSfx();
             other.gameObject.SetActive(false);
         }
 
@@ -201,6 +211,7 @@ public class PlayerManager : Singleton<PlayerManager>
             coin += 50;
             PlayerPrefs.SetInt("Coin", coin);
             GameManager.Instance.WinGame();
+            AudioManager.Instance.PlayWinSfx();
         }
 
 
@@ -218,7 +229,7 @@ public class PlayerManager : Singleton<PlayerManager>
 
     public void OnInit()
     {
-        
+        ChangeAnim("Idle");
         isMoving = false;
         speed = 15f;
         InputManager.Instance.direction = EDirection.None;

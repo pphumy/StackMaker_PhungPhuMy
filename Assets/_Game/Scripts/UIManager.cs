@@ -61,7 +61,7 @@ public class UIManager : Singleton<UIManager>
 
     public IEnumerator ShowWinUI()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(3);
         WinUI.SetActive(true);
 
     }
