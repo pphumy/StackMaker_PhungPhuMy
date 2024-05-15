@@ -4,110 +4,58 @@ using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
 {
-    
 
-    public enum State
+
+    public enum GameState
     {
-        None = 0,
-        StartScreen = 1,
-        MainMenu = 2,
-        LevelSelection = 3,
-        StartGame = 4,
-        OnGame = 5,
-        PauseGame = 6,
-        EndGame = 7
+        MainMenu,
+        Gameplay,
+        Replay,
+        Win
     }
 
-    public State currState;
-
-
-   
-
-    void Start()
+    private void Start()
     {
-        currState = State.StartScreen;
-        //OnStartScreeen();
+        // Set initial state
+        ChangeState(GameState.MainMenu);
     }
 
-    public void ChangeState(State state)
+    public GameState currentState;
+    public void ChangeState(GameState newState)
     {
-        switch (state)
+        currentState = newState;
+
+        // Perform actions based on the state
+        switch (currentState)
         {
-            case State.None:
+            case GameState.MainMenu:
+                UIManager.Instance.ShowMainUI();
                 break;
-            case State.StartScreen:
-                SaveState(State.StartScreen);
-                //OnStartScreeen();
+            case GameState.Gameplay:
+                LevelManager.Instance.LoadLevel();
+                UIManager.Instance.ShowInGameUI();
                 break;
-            case State.MainMenu:
-                SaveState(State.MainMenu);
-                //OnMainMenu();
-                break;
-            case State.LevelSelection:
-                SaveState(State.LevelSelection);
-                //OnLevelSelection();
-                break;
-            case State.StartGame:
-                SaveState(State.StartGame);
+            case GameState.Win:
+                UIManager.Instance.StartCoroutine(UIManager.Instance.ShowWinUI());
                 
                 break;
-            case State.OnGame:
-                SaveState(State.OnGame);
-                //OnGame();
+            case GameState.Replay:
+                //UIManager.Instance.StartCoroutine(UIManager.Instance.ShowWinUI());
+                
                 break;
-            case State.PauseGame:
-                SaveState(State.PauseGame);
-                //OnPauseGame();
-                break;
-            case State.EndGame:
-                SaveState(State.EndGame);
-                //OnEndGame();
+            default:
                 break;
         }
     }
 
-    public void SaveState(State state)
+    public void StartGame()
     {
-        currState = state;
+        ChangeState(GameState.Gameplay);
     }
 
-    public void GoBackward()
+
+    public void WinGame()
     {
-        ChangeState(--currState);
+        ChangeState(GameState.Win);
     }
-
-    //private void OnGame()
-    //{
-    //    UIManager.Instance.showIngameUI();
-    //}
-
-    //private void OnPauseGame()
-    //{
-    //    UIManager.Ins.ShowPauseMenu();
-    //}
-
- 
-
-    //private void OnLevelSelection()
-    //{
-    //    UIManager.Ins.ShowLevelSelectionUI();
-
-    //}
-
-    //private void OnStartScreeen()
-    //{
-    //    UIManager.Ins.ShowStartScreen();
-    //}
-
-    //public void OnEndGame()
-    //{
-    //    // logic end game
-    //    Debug.Log("AAAA");
-    //}
-
-    //public void OnMainMenu()
-    //{
-
-    //    UIManager.Ins.ShowMainMenuUI();
-    //}
 }

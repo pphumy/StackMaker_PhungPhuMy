@@ -5,35 +5,44 @@ using UnityEngine;
 public class LevelManager : Singleton<LevelManager>
 {
     [SerializeField] Transform origin;
+    Map currentMap;
     public int currentLevel = 0;
+    
     [SerializeField] List<Map> maps = new List<Map>();
 
     public void LoadLevel()
     {
-        if(currentLevel > maps.Count)
+        if (currentMap != null)
         {
-            currentLevel = 0;
+            Destroy(currentMap.gameObject);
         }
-        currentLevel = PlayerPrefs.GetInt("Current Level");
-        Instantiate(maps[currentLevel], origin, true);
+        currentLevel = currentLevel = PlayerPrefs.GetInt("Current Level");
+        currentMap = Instantiate(maps[currentLevel], origin, true);
         PlayerManager.Instance.SetStartPoint(maps[currentLevel].StartPoint.position);
-        PlayerPrefs.SetInt("Current Level",currentLevel);
-        UIManager.Instance.SetLevelUI();
+        
+        PlayerManager.Instance.OnInit();
+
+        Debug.Log("lOAD " + maps[currentLevel].StartPoint.transform.position);
         
     }
+
     public void LoadNextLevel()
     {
-        Destroy(maps[currentLevel]);
-        currentLevel++;
+        currentLevel+=1;
+        
         if (currentLevel > maps.Count-1)
         {
             currentLevel = 0;
+            PlayerPrefs.SetInt("Current Level", currentLevel);
+            LoadLevel();
+            Debug.Log("Replayy");
         }
-        
-        Instantiate(maps[currentLevel], origin, true);
-        PlayerPrefs.SetInt("Current Level", currentLevel);
-        PlayerManager.Instance.SetStartPoint(maps[currentLevel].StartPoint.position);
-        
+        else
+        {
+            PlayerPrefs.SetInt("Current Level", currentLevel);
+            LoadLevel();
+        }
+
     }
 
 }

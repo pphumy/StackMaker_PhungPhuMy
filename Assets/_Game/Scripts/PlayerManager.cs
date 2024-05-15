@@ -3,13 +3,15 @@ using UnityEngine;
 
 public class PlayerManager : Singleton<PlayerManager>
 {
-    [SerializeField] float speed = 15f;
+    public float speed = 15f;
     [SerializeField] private Rigidbody rb;
     [SerializeField] private Animator anim;
     [SerializeField] public LayerMask layer;
     [SerializeField] Transform player;
 
     [SerializeField] GameObject brickPrefab, playerBrick, playerModel;
+
+    public int coin = 0;
 
     List<GameObject> bricks = new List<GameObject>();
     public Transform StartPoint ;
@@ -49,45 +51,53 @@ public class PlayerManager : Singleton<PlayerManager>
 
     private void getMovePostition()
     {
-        if (!isMoving)
-        {
-            nextPoint = transform.position;
-            switch (InputManager.Instance.direction)
-            {
-                case EDirection.Forward:
-
-                    dir = Vector3.forward;
-                    break;
-                case EDirection.Backward:
-
-                    dir = Vector3.back;
-                    break;
-                case EDirection.Right:
-
-                    dir = Vector3.right;
-                    break;
-                case EDirection.Left:
-
-                    dir = Vector3.left;
-                    break;
-                case EDirection.None:
-                    dir = Vector3.zero;
-                    break;
-            }
-
-            //Debug.DrawRay(transform.position, dir, Color.red, Mathf.Infinity);
-            if (Physics.Raycast(transform.position, dir, out hit, Mathf.Infinity, layer))
-            {
-
-                Vector3 tempPos = hit.transform.position;
-                tempPos.y = transform.position.y;
-                nextPoint = tempPos - dir * 1f;
-            }
-        }
-        else
+        if(GameManager.Instance.currentState == GameManager.GameState.MainMenu)
         {
             return;
         }
+        else
+        {
+            if (!isMoving)
+            {
+                nextPoint = transform.position;
+                switch (InputManager.Instance.direction)
+                {
+                    case EDirection.Forward:
+
+                        dir = Vector3.forward;
+                        break;
+                    case EDirection.Backward:
+
+                        dir = Vector3.back;
+                        break;
+                    case EDirection.Right:
+
+                        dir = Vector3.right;
+                        break;
+                    case EDirection.Left:
+
+                        dir = Vector3.left;
+                        break;
+                    case EDirection.None:
+                        dir = Vector3.zero;
+                        break;
+                }
+
+                //Debug.DrawRay(transform.position, dir, Color.red, Mathf.Infinity);
+                if (Physics.Raycast(transform.position, dir, out hit, Mathf.Infinity, layer))
+                {
+
+                    Vector3 tempPos = hit.transform.position;
+                    tempPos.y = transform.position.y;
+                    nextPoint = tempPos - dir * 1f;
+                }
+            }
+            else
+            {
+                return;
+            }
+        }
+        
     }
 
     private void MovePlayer()
@@ -99,6 +109,7 @@ public class PlayerManager : Singleton<PlayerManager>
         }
         else
         {
+            ChangeAnim("Idle");
             isMoving = false;
         }
     }
@@ -139,6 +150,7 @@ public class PlayerManager : Singleton<PlayerManager>
         }
         //xoa het gach trong list
         bricks.Clear();
+        playerModel.transform.localPosition = playerModel.transform.localPosition - Vector3.up * 0.3f;
     }
 
 
@@ -170,6 +182,7 @@ public class PlayerManager : Singleton<PlayerManager>
                     speed = 0;
                     //Debug.Log("Retry");
                     LevelManager.Instance.LoadLevel();
+                    
                 }
             }
             else
@@ -182,18 +195,17 @@ public class PlayerManager : Singleton<PlayerManager>
            // isWon = true;
             speed = 0;
             ChangeAnim("Win");
+            ClearBrick();
             //Debug.Log("WinPos");
-            UIManager.Instance.StartCoroutine(UIManager.Instance.ShowWinUI());
+            //UIManager.Instance.StartCoroutine(UIManager.Instance.ShowWinUI());
+            coin += 50;
+            PlayerPrefs.SetInt("Coin", coin);
+            GameManager.Instance.WinGame();
         }
 
 
     }
 
-
-    private void Win()
-    {
-        
-    }
     public void ChangeAnim(string animName)
     {
         if(currentAnimName != animName)
@@ -204,15 +216,19 @@ public class PlayerManager : Singleton<PlayerManager>
         }
     }
 
-    private void OnInit()
+    public void OnInit()
     {
         
         isMoving = false;
+        speed = 15f;
+        InputManager.Instance.direction = EDirection.None;
         
     }
     public void SetStartPoint(Vector3 startPoint)
     {
         transform.position = startPoint + offset;
+        Debug.Log(startPoint);
+        Debug.Log(transform.position);
     }
 
 }
