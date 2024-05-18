@@ -9,11 +9,17 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] GameObject PlayBtn;
     [SerializeField] GameObject BackgroundSelection;
     [SerializeField] TextMeshProUGUI text;
+    public TextMeshProUGUI scoreUi;
     [SerializeField] GameObject WinUI;
 
-
+    private void OnInit()
+    {
+        scoreUi.SetText(" ");
+        PlayerManager.Instance.score = 0;
+    }
     public void ShowMainUI()
     {
+        
         PlayBtn.SetActive(true);
     }
 
@@ -27,6 +33,8 @@ public class UIManager : Singleton<UIManager>
         int level = PlayerPrefs.GetInt("Current Level") + 1;
         text.SetText("Level " + level);
         Debug.Log(level);
+        
+        Debug.Log("Score");
 
     }
     //public void ShowWinUi()
@@ -46,12 +54,14 @@ public class UIManager : Singleton<UIManager>
         LevelManager.Instance.LoadNextLevel();
         WinUI.SetActive(false);
         GameManager.Instance.StartGame();
+        OnInit();
     }
     public void OnClickRePlayBtn()
     {
         LevelManager.Instance.LoadLevel();
         WinUI.SetActive(false);
         GameManager.Instance.StartGame();
+        OnInit();
     }
     public void OnClickChangeBackGroundBtn()
     {

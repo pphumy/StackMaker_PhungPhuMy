@@ -12,6 +12,7 @@ public class PlayerManager : Singleton<PlayerManager>
     [SerializeField] GameObject brickPrefab, playerBrick, playerModel;
 
     public int coin = 0;
+    public int score = 0;
 
     List<GameObject> bricks = new List<GameObject>();
     public Transform StartPoint ;
@@ -133,7 +134,8 @@ public class PlayerManager : Singleton<PlayerManager>
         bricks.Add(brick);
         playerModel.transform.localPosition += Vector3.up * 0.3f;
         ChangeAnim("Hit");
-        
+
+
     }
 
     private void RemoveBrick()
@@ -171,6 +173,8 @@ public class PlayerManager : Singleton<PlayerManager>
 
             //Debug.Log("Brick");
             AddBrick();
+            score++;
+            UIManager.Instance.scoreUi.SetText(score.ToString());
             AudioManager.Instance.PlayHitSfx();
             other.gameObject.SetActive(false);
         }
