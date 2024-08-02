@@ -28,6 +28,7 @@ public class UIManager : Singleton<UIManager>
 
     public void OnclickPlay()
     {
+        //PlayerManager.Instance.setHeight();
         PlayerManager.Instance.setHeight();
         PlayerManager.Instance.ClearBrick();
         text.gameObject.SetActive(true);
@@ -79,7 +80,7 @@ public class UIManager : Singleton<UIManager>
         PauseBtn.SetActive(false);
         Time.timeScale = 1f;
         
-        PlayerManager.Instance.setHeight();
+        //PlayerManager.Instance.setHeightEnd();
         PlayerManager.Instance.ClearBrick();
         WinUI.SetActive(false);
         PlayerManager.Instance.OnInit();

@@ -20,12 +20,13 @@ public class PlayerManager : Singleton<PlayerManager>
     [SerializeField] Collider playerCollider;
 
     private RaycastHit hit;
+    private Transform basePos;
     private bool isMoving = false;
-    private Vector3 dir = Vector3.zero;
+    public Vector3 dir = Vector3.zero;
     private float brickHeight = 0.3f;
 
     private Vector3 nextPoint;
-    private Vector3 offset = new Vector3(0, 3.75f, 0);
+    private Vector3 offset = new Vector3(0, 4f, 0);
     private string currentAnimName;
 
     private void Awake()
@@ -121,16 +122,16 @@ public class PlayerManager : Singleton<PlayerManager>
         }
     }
 
-    private void AddBrick()
+    public void AddBrick()
     {
         Vector3 newBrickPosition = playerBrick.transform.position;
         GameObject brick = Instantiate(brickPrefab, newBrickPosition, Quaternion.Euler(-90, 0, 0), playerBrick.transform);
         //brick.transform.SetParent(playerBrick.transform);
         //Set vi tri de cac brick xep chong len nhau
-        brick.transform.localPosition = new Vector3(0, bricks.Count * 0.3f, 0);
+        brick.transform.localPosition = new Vector3(0, (bricks.Count + 1) * 0.3f, 0);
         //add brick vua tao ra
         bricks.Add(brick);
-        playerModel.transform.localPosition += Vector3.up * 0.3f;
+        playerModel.transform.localPosition = brick.transform.localPosition-Vector3.up*0.2f;
         ChangeAnim("Hit");
 
 
@@ -145,9 +146,10 @@ public class PlayerManager : Singleton<PlayerManager>
             //xoa vien gach ra khoi list
             bricks.Remove(brick);
             //destroy vien gach di
+            playerModel.transform.localPosition -= Vector3.up * brickHeight;
             Destroy(brick);
             //set position cua player 
-            playerModel.transform.localPosition -= Vector3.up * brickHeight;
+            
         }
     }
     public void setHeight()
@@ -159,13 +161,15 @@ public class PlayerManager : Singleton<PlayerManager>
 
     public void ClearBrick()
     {
+
+        //xoa het gach trong list
+        //setHeight();
+        playerModel.transform.localPosition = playerModel.transform.localPosition - Vector3.up * brickHeight * (bricks.Count-1);
         foreach (var brick in bricks)
         {
             Destroy(brick);
         }
-        //xoa het gach trong list
         bricks.Clear();
-        playerModel.transform.localPosition = playerModel.transform.localPosition - Vector3.up * 0.3f;
     }
 
 
@@ -242,7 +246,9 @@ public class PlayerManager : Singleton<PlayerManager>
 
     public void SetStartPoint(Vector3 startPoint)
     {
-        transform.position = startPoint + offset;
+        transform.position = startPoint +offset;
+        playerModel.transform.localPosition = new Vector3(playerModel.transform.localPosition.x, 0.52f, playerModel.transform.localPosition.z);
+        //basePos.po = startPoint+offset;
         Debug.Log(startPoint);
         Debug.Log(transform.position);
     }
