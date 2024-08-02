@@ -25,7 +25,7 @@ public class PlayerManager : Singleton<PlayerManager>
     private float brickHeight = 0.3f;
 
     private Vector3 nextPoint;
-    private Vector3 offset = new Vector3(0, 3.5f, 0);
+    private Vector3 offset = new Vector3(0, 3.75f, 0);
     private string currentAnimName;
 
     private void Awake()
@@ -94,7 +94,6 @@ public class PlayerManager : Singleton<PlayerManager>
                 //Debug.DrawRay(transform.position, dir, Color.red, Mathf.Infinity);
                 if (Physics.Raycast(transform.position, dir, out hit, Mathf.Infinity, layer))
                 {
-
                     Vector3 tempPos = hit.transform.position;
                     tempPos.y = transform.position.y;
                     nextPoint = tempPos - dir * 1f;
@@ -114,7 +113,6 @@ public class PlayerManager : Singleton<PlayerManager>
         {
             transform.position = Vector3.MoveTowards(transform.position, nextPoint, speed * Time.deltaTime);
             isMoving = true;
-            
         }
         else
         {
@@ -152,8 +150,14 @@ public class PlayerManager : Singleton<PlayerManager>
             playerModel.transform.localPosition -= Vector3.up * brickHeight;
         }
     }
+    public void setHeight()
+    {
+        
+            playerModel.transform.localPosition -= Vector3.up * brickHeight*(bricks.Count-1);
+        
+    }
 
-    private void ClearBrick()
+    public void ClearBrick()
     {
         foreach (var brick in bricks)
         {
@@ -188,15 +192,13 @@ public class PlayerManager : Singleton<PlayerManager>
                 {
                     RemoveBrick();
                     bridge.havePassed = true;
-                    bridge.ChangeColor();
-                    
+                    bridge.ChangeColor();         
                 }
                 else if (bricks.Count <= 0)
                 {
                     speed = 0;
                     //Debug.Log("Retry");
                     LevelManager.Instance.LoadLevel();
-                    
                 }
             }
             else
@@ -204,6 +206,7 @@ public class PlayerManager : Singleton<PlayerManager>
                 return;
             }
         }
+
         if (other.gameObject.CompareTag("WinPos"))
         {
            // isWon = true;
@@ -217,8 +220,6 @@ public class PlayerManager : Singleton<PlayerManager>
             GameManager.Instance.WinGame();
             AudioManager.Instance.PlayWinSfx();
         }
-
-
     }
 
     public void ChangeAnim(string animName)
@@ -237,8 +238,8 @@ public class PlayerManager : Singleton<PlayerManager>
         isMoving = false;
         speed = 15f;
         InputManager.Instance.direction = EDirection.None;
-        
     }
+
     public void SetStartPoint(Vector3 startPoint)
     {
         transform.position = startPoint + offset;

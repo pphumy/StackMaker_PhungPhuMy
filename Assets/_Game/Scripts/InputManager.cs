@@ -5,7 +5,12 @@ using UnityEngine;
 public class InputManager : MonoBehaviour
 {
     public EDirection direction;
-    private static InputManager instance;   
+    private static InputManager instance;
+
+    Vector2 firstPressPos;
+    Vector2 secondPressPos;
+    Vector2 currentSwipe;
+
     public static InputManager Instance
     {
         get
@@ -18,8 +23,7 @@ public class InputManager : MonoBehaviour
         }
 
     }
-
-    
+  
     private void Awake()
     {
         instance = this;
@@ -32,9 +36,7 @@ public class InputManager : MonoBehaviour
     {
         Swipe();
     }
-    Vector2 firstPressPos;
-    Vector2 secondPressPos;
-    Vector2 currentSwipe;
+    
 
     private void Swipe()
     {

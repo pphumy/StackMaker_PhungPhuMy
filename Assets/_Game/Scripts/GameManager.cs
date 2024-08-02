@@ -11,6 +11,7 @@ public class GameManager : Singleton<GameManager>
         MainMenu,
         Gameplay,
         Replay,
+        Pause,
         Win
     }
 
@@ -30,6 +31,7 @@ public class GameManager : Singleton<GameManager>
         {
             case GameState.MainMenu:
                 UIManager.Instance.ShowMainUI();
+                InputManager.Instance.direction = EDirection.None;
                 break;
             case GameState.Gameplay:
                 LevelManager.Instance.LoadLevel();
@@ -40,8 +42,9 @@ public class GameManager : Singleton<GameManager>
                 
                 break;
             case GameState.Replay:
-                //UIManager.Instance.StartCoroutine(UIManager.Instance.ShowWinUI());
-                
+            //UIManager.Instance.StartCoroutine(UIManager.Instance.ShowWinUI());
+            case GameState.Pause:
+                InputManager.Instance.direction = EDirection.None;
                 break;
             default:
                 break;

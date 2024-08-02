@@ -26,10 +26,17 @@ public class LevelManager : Singleton<LevelManager>
         
     }
 
+    public void ClearCurrentLevel()
+    {
+        if (currentMap != null)
+        {
+            Destroy(currentMap.gameObject);
+        }
+    }
+
     public void LoadNextLevel()
     {
-        currentLevel+=1;
-        
+        currentLevel += 1;
         if (currentLevel > maps.Count-1)
         {
             currentLevel = 0;
@@ -42,7 +49,6 @@ public class LevelManager : Singleton<LevelManager>
             PlayerPrefs.SetInt("Current Level", currentLevel);
             LoadLevel();
         }
-
     }
 
 }
